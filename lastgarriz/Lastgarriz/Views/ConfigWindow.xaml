@@ -1,0 +1,240 @@
+﻿<Window x:Class="Run.Views.ConfigWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:t="clr-namespace:Run.ViewModels"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:c="clr-namespace:Run.ViewModels.Command"
+        xmlns:u="clr-namespace:Run.Util.Converter"
+        xmlns:local="clr-namespace:Run.Views"
+        d:DataContext="{d:DesignInstance Type=t:ConfigViewModel}"
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignDarkBackground}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" SizeToContent="WidthAndHeight" WindowStyle="None"
+        Title="Configuration" Height="484" Width="624" AllowsTransparency="True" Topmost="True" Opacity="1" RenderTransformOrigin="0.5,0.5"
+        MouseLeftButtonDown="DragWindow" Activated="Window_Activated">
+    <!-- Background="{DynamicResource MaterialDesignPaper}" -->
+    <!-- FontFamily="{DynamicResource MaterialDesignFont}" -->
+    <Window.RenderTransform>
+        <TransformGroup>
+            <ScaleTransform x:Name="WindowScaleTransform"/>
+        </TransformGroup>
+    </Window.RenderTransform>
+    <Window.Resources>
+        <u:MultiParamConverter x:Key="multiParamConverter"/>
+    </Window.Resources>
+    <Grid Margin="0,0,0,0" Background="#FF333333">
+        <Grid Margin="2,2,2,2">
+            <!-- Background="#FF444444"-->
+            <Button HorizontalAlignment="Left" Margin="586,-1,0,0" VerticalAlignment="Top" Width="34" Height="28" Background="#FF333333" Command="{Binding Commands.CloseWindow}" Cursor="Hand" BorderThickness="0" Padding="0">
+                <Button.Content>
+                    <Grid>
+                        <Rectangle Width="12" Height="2" Stroke="White" StrokeThickness="2">
+                            <Rectangle.LayoutTransform>
+                                <RotateTransform Angle="-45"/>
+                            </Rectangle.LayoutTransform>
+                        </Rectangle>
+                        <Rectangle Width="12" Height="2" Stroke="White" StrokeThickness="2">
+                            <Rectangle.LayoutTransform>
+                                <RotateTransform Angle="45"/>
+                            </Rectangle.LayoutTransform>
+                        </Rectangle>
+                    </Grid>
+                </Button.Content>
+            </Button>
+            <Label Content="Lastgarriz options" HorizontalAlignment="Left" Margin="35,1,0,0" VerticalAlignment="Top" Width="552" HorizontalContentAlignment="Center" FontWeight="Bold"/>
+            <Grid Margin="15,30,15,50">
+                <TabControl HorizontalAlignment="Left" VerticalAlignment="Top" Width="590" Height="400" BorderBrush="#FF333333" BorderThickness="1 1 1 1" Style="{StaticResource MaterialDesignTabControl}">
+                    <TabItem Header="General settings">
+                        <Grid>
+                            <materialDesign:Card Padding="32" Margin="16">
+                                <Grid>
+                                    <TextBlock Text="Preferences" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                    <Grid Margin="428,1,1,235">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Grid.Column="0" Text="Dev" ToolTip="Developer mode : can use features without launching HLL instance." Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                        <CheckBox HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="1" RenderTransformOrigin="0.357,1.269" Margin="2,0,0,0" ToolTip="Developer mode : can use features without launching HLL instance." IsChecked="{Binding DevMode}"/>
+                                    </Grid>
+                                    <CheckBox Margin="9,32,264,205" RenderTransformOrigin="0.357,1.269" Content="Disable startup message" ToolTip="Disable startup message" Foreground="{DynamicResource MaterialDesignBodyLight}" IsChecked="{Binding DisableStartup}"/>
+                                    <TextBlock Text="Rocket crosshair" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}" Margin="0,97,0,0"/>
+                                    <CheckBox Margin="9,128,141,109" RenderTransformOrigin="0.357,1.269" Content="Show values without holding your breath" ToolTip="Show values without holding your breath" Foreground="{DynamicResource MaterialDesignBodyLight}" IsChecked="{Binding ShowNoHoldValues}"/>
+
+                                    <CheckBox Visibility="Hidden" Margin="9,163,255,74" RenderTransformOrigin="0.357,1.269" Content="Mouse Y Axis inverted in-game" IsChecked="{Binding InvertedMouse}" ToolTip="Enable or disable to convert rocket distance value according to your in-game settings." Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                    <CheckBox Visibility="Hidden" Margin="9,196,72,41" RenderTransformOrigin="0.357,1.269" Content="Convert indicator value to meters (WIP - not working)" IsChecked="{Binding ConvertIndicator}" ToolTip="Enable if you want to convert indicator value to approximate meters.&#x0a;&#x0a;The conversion allows to obtain the distance if the Z axis position (3D-Game)&#x0a;of the source and the target are ideally identical but this can never be always the case in game." Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                    <CheckBox Visibility="Hidden" Margin="9,229,255,8" RenderTransformOrigin="0.357,1.269" Content="Steady aim values" IsChecked="{Binding SteadyAim}" IsEnabled="{Binding ConvertIndicator}" ToolTip="Enable or disable if you are using or not steady aim shortcut in-game with rocket indicator feature." Foreground="{DynamicResource MaterialDesignBodyLight}"/>
+                                </Grid>
+                            </materialDesign:Card>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Shortcuts" >
+                        <Grid>
+                            <materialDesign:Card Padding="32" Margin="16">
+                                <Grid>
+                                    <TextBlock Text="Artillery metric converter" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                                    <TextBlock Text="Start converting" HorizontalAlignment="Left" Margin="143,35,0,0" VerticalAlignment="Top" ToolTip="Start converting meters to milliradians." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,30,0,0" Text="{Binding Features.Artillery_validate.Hotkey}" ToolTip="{Binding Features.Artillery_validate.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Artillery_validate}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="US/GER metrics" HorizontalAlignment="Left" Margin="143,65,0,0" VerticalAlignment="Top" ToolTip="Show or hide artillery metric converter in Hell Let Loose, game need to be launched first.&#x0a;Hit numeric keystrokes representing meters value then hit 'Start converting' key to convert them in milliradians." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="9,62,467,175" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Artillery_usger.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,60,0,0" IsEnabled="{Binding Features.Artillery_usger.IsEnable}" Text="{Binding Features.Artillery_usger.Hotkey}" ToolTip="{Binding Features.Artillery_usger.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Artillery_usger}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="RU metrics" HorizontalAlignment="Left" Margin="143,95,0,0" VerticalAlignment="Top" ToolTip="Show or hide artillery metric converter in Hell Let Loose, game need to be launched first.&#x0a;Hit numeric keystrokes representing meters value then hit 'Start converting' key to convert them in milliradians." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="9,92,467,145" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Artillery_ru.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,90,0,0" IsEnabled="{Binding Features.Artillery_ru.IsEnable}" Text="{Binding Features.Artillery_ru.Hotkey}" ToolTip="{Binding Features.Artillery_ru.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Artillery_ru}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="UK metrics" HorizontalAlignment="Left" Margin="143,125,0,0" VerticalAlignment="Top" ToolTip="Show or hide artillery metric converter in Hell Let Loose, game need to be launched first.&#x0a;Hit numeric keystrokes representing meters value then hit 'Start converting' key to convert them in milliradians." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="9,122,467,115" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Artillery_uk.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,120,0,0" IsEnabled="{Binding Features.Artillery_uk.IsEnable}" Text="{Binding Features.Artillery_uk.Hotkey}" ToolTip="{Binding Features.Artillery_uk.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Artillery_uk}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="Rocket crosshair" Margin="0,160,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                                    <TextBlock Visibility="Hidden" Text="Show indicator" HorizontalAlignment="Left" Margin="143,165,0,0" VerticalAlignment="Top" ToolTip="Show rocket indicator near the center of the screen for a limited time." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <TextBox Visibility="Hidden" HorizontalAlignment="Left" Height="24" Margin="32,160,0,0" Text="{Binding Features.Rocket_start.Hotkey}" ToolTip="{Binding Features.Rocket_start.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Rocket_start}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="PreviewMouseDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Rocket_start}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="Show crosshair" HorizontalAlignment="Left" Margin="143,165,0,0" VerticalAlignment="Top" ToolTip="Show the rocket crosshair when you hit the shortcut.&#x0a;You need to activate Panzerschreck or Bazooka overlay first !&#x0a;It automatically disappear after a limited time or when you hit left mouse button (after shoot).&#x0a;&#x0a;You can assign this shortcut to mouse buttons." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,160,0,0" IsEnabled="{Binding Features.Rocket_start.IsEnable}" Text="{Binding Features.Rocket_start.Hotkey}" ToolTip="{Binding Features.Rocket_start.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Rocket_start}"/>
+                                            </i:EventTrigger>
+                                            <i:EventTrigger EventName="PreviewMouseDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Rocket_start}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+
+                                    <TextBlock Text="GER Panzerchreck" HorizontalAlignment="Left" Margin="143,195,0,0" VerticalAlignment="Top" ToolTip="Enable or disable Panzerschreck crosshair overlay.&#x0a;&#x0a;PLEASE CONSIDER : &#x0a;- Indicators displayed with the crosshair overlay are approximates and will never be fully accurates.&#x0a;- To create this overlay, measurements were taken at the same altitude for the start and finish positions of each rocket." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="9,192,467,45" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Rocket_ger.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,190,0,0" IsEnabled="{Binding Features.Rocket_ger.IsEnable}" Text="{Binding Features.Rocket_ger.Hotkey}" ToolTip="{Binding Features.Rocket_ger.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Rocket_ger}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="US Bazooka" HorizontalAlignment="Left" Margin="143,225,0,0" VerticalAlignment="Top" ToolTip="Enable or disable Bazooka crosshair overlay.&#x0a;&#x0a;PLEASE CONSIDER : &#x0a;- Indicators displayed with the crosshair overlay are approximates and will never be fully accurates.&#x0a;- To create this overlay, measurements were taken at the same altitude for the start and finish positions of each rocket." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="9,222,467,15" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Rocket_us.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="32,220,0,0" IsEnabled="{Binding Features.Rocket_us.IsEnable}" Text="{Binding Features.Rocket_us.Hotkey}" ToolTip="{Binding Features.Rocket_us.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Rocket_us}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="Map history recorder" Margin="280,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+                                    <TextBlock Text="Map shortcut"  Margin="410,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Shortcut used to open your map in-game." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300,23,0,0" Height="24" IsEnabled="{Binding Features.Map_open.IsEnable}" Text="{Binding Features.Map_open.Hotkey}" ToolTip="{Binding Features.Map_open.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Map_open}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="Start / End"  Margin="410,58,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" ToolTip="Start or End recording map history.&#x0a;This feature allow you to record map activity of your team by taking snapshots when you open the map in-game, useful for post-match analysis.&#x0a;&#x0a;Each history will be recorded under '.\Lastgarriz\MapHistory\{DATE-TIME}\' subfolder.&#x0a;Be sure you have map icon active on top left of the screen when playing Hell let loose." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="278,56,198,181" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Map_record.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" VerticalAlignment="Top" Margin="300,54,0,0" Height="24" IsEnabled="{Binding Features.Map_record.IsEnable}" Text="{Binding Features.Map_record.Hotkey}" ToolTip="{Binding Features.Map_record.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Map_record}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+
+                                    <TextBlock Text="Lastgarriz is running" HorizontalAlignment="Left" Margin="280,100,0,0" VerticalAlignment="Top" FontWeight="Bold" Foreground="{DynamicResource PrimaryHueMidBrush}"/>
+
+                                    <TextBlock Text="Open settings" HorizontalAlignment="Left" Margin="410,135,0,0" VerticalAlignment="Top" ToolTip="Open this settings window with a shortcut." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="277,131,199,106" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Configuration.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="300,130,0,0" IsEnabled="{Binding Features.Configuration.IsEnable}" Text="{Binding Features.Configuration.Hotkey}" ToolTip="{Binding Features.Configuration.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True" Cursor="Arrow">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Configuration}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <TextBlock Text="Auto queue" HorizontalAlignment="Left" Margin="410,165,0,0" VerticalAlignment="Top" ToolTip="Enable/Disable auto queue.&#x0a;This feature allows you to automatically join the server queue when full.&#x0a;&#x0a;Prerequisite: Have the server window open with a server selected (HLL in foreground).&#x0a;Behavior: Automatically disables itself if prerequisites are not met or if the feature has completed its task." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                    <CheckBox Margin="277,162,199,75" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Autoqueue.IsEnable}"/>
+                                    <TextBox HorizontalAlignment="Left" Height="24" Margin="300,160,0,0" IsEnabled="{Binding Features.Autoqueue.IsEnable}" Text="{Binding Features.Autoqueue.Hotkey}" ToolTip="{Binding Features.Autoqueue.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True" Cursor="Arrow">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="PreviewKeyDown">
+                                                <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Autoqueue}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <Grid d:Visibility="Visible" Visibility="Hidden">
+                                        <TextBlock Text="Open browser" HorizontalAlignment="Left" Margin="410,195,0,0" VerticalAlignment="Top" ToolTip="WIP : Open server browser using battlemetrics API." Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                                        <CheckBox Margin="277,191,199,46" RenderTransformOrigin="0.357,1.269" IsChecked="{Binding Features.Browser.IsEnable}"/>
+                                        <TextBox HorizontalAlignment="Left" Height="24" Margin="300,190,0,0" IsEnabled="{Binding Features.Browser.IsEnable}" Text="{Binding Features.Browser.Hotkey}" ToolTip="{Binding Features.Browser.Hotkey}" Foreground="{DynamicResource MaterialDesignDarkForeground}" VerticalAlignment="Top" Width="106" Tag="textbox" FontFamily="Arial" HorizontalContentAlignment="Center" IsReadOnly="True">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="PreviewKeyDown">
+                                                    <c:AdvancedInvokeCommandAction Command="{Binding Commands.SetHotKey}" PassEventArgsToCommand="True" CommandParameter="{Binding Features.Browser}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </TextBox>
+                                    </Grid>
+                                </Grid>
+                            </materialDesign:Card>
+                            <TextBlock Text="TIP : Put your mouse hover a feature's label to see details." HorizontalAlignment="Left" Margin="25,318,0,0" VerticalAlignment="Top" FontStyle="Italic" FontSize="12" Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+            </Grid>
+            <Button Content="Save and Close" HorizontalAlignment="Left" Margin="92,443,0,10"  Width="129" Height="27" FontWeight="Bold" Command="{Binding Commands.SaveConfig}" />
+            <Button Content="Load Default" HorizontalAlignment="Left" Margin="249,443,0,10"  Width="120" Height="27" FontWeight="Bold" Command="{Binding Commands.LoadDefaultConfig}" Cursor="Hand" />
+            <Button Content="Close" HorizontalAlignment="Left" Margin="395,443,0,10" Width="120" Height="27" FontWeight="Bold" Command="{Binding Commands.CloseWindow}" />
+        </Grid>
+    </Grid>
+</Window>
